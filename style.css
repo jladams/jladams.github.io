@@ -18,9 +18,13 @@ body {
 	margin-bottom: 25px;
 }
 
-.col-centered{
+.col-centered {
     float: none;
     margin: 0 auto;
+}
+
+.col-md-4 {
+    padding-bottom: 5px;
 }
 
 /* .col-md-4:hover, col-md-4:focus {
