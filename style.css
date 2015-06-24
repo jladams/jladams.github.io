@@ -18,6 +18,11 @@ body {
 	margin-bottom: 25px;
 }
 
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
 /* .col-md-4:hover, col-md-4:focus {
 	box-shadow: 3px 3px 3px #888888;
     border-radius: 25px;
@@ -39,6 +44,8 @@ body {
     width:100%;
     max-width: 50vh;
 }
+
+
 
 #galileo {
     margin-left: auto;
