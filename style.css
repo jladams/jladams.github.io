@@ -56,3 +56,17 @@ body {
     margin-right: auto;
 	max-width: 200px;
 }
+
+#mySched8224 {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  color: #333333;
+  font: 14px Arial, Helvetica, Verdana;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+#mySched8224:hover {
+  opacity: 0.9;
+}
