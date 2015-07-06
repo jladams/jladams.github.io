@@ -1,4 +1,4 @@
-var map = L.map('map').setView([35.2, -97.5], 5);
+		    var map = L.map('map').setView([35.2, -97.5], 9);
 		    
 		    //Map Base Tiles
 			var lightbase = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
@@ -6,12 +6,12 @@ var map = L.map('map').setView([35.2, -97.5], 5);
 							ext: 'jpg',
 							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 							subdomains: '1234'
-							}).addTo(map);
+							});
 		    
 		    var darkbase = L.tileLayer('http://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png', {
 	                        attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                            });
-		        			
+                            }).addTo(map);
+		    
             var night1 = L.tileLayer('http://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
 	                        attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
 	                        bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
@@ -192,12 +192,6 @@ var map = L.map('map').setView([35.2, -97.5], 5);
    			 preciplegend.addTo(map);
 			
 			//Layer Groups
-			var temps = L.layerGroup([temp1, temp2, temp3]);
-			var windvectors = L.layerGroup([windvectors1, windvectors5, windvectors10, windvectors15]);		
-			var satellite = L.layerGroup([satellite1, overlay]);			
-			var nighttime = L.layerGroup([night1, overlay]);
-            
-            //Layer Control            
 			var temps = L.layerGroup([temp1, temp2, temp3]);
 			var windvectors = L.layerGroup([windvectors1, windvectors5, windvectors10, windvectors15]);		
             
