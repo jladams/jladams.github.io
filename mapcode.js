@@ -29,7 +29,7 @@ var map = L.map('map').setView([35.2, -97.5], 5);
 							subdomains: '1234'
 							});
 
-			var overlay = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+			var roads = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
 	                        type: 'hyb',
 	                        ext: 'png',
 	                        attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -198,11 +198,15 @@ var map = L.map('map').setView([35.2, -97.5], 5);
 			var nighttime = L.layerGroup([night1, overlay]);
             
             //Layer Control            
+			var temps = L.layerGroup([temp1, temp2, temp3]);
+			var windvectors = L.layerGroup([windvectors1, windvectors5, windvectors10, windvectors15]);		
+            
+            //Layer Control            
             var baseLayers = {
             	"Light Base" : lightbase,
             	"Dark Base" : darkbase,
-            	"Satellite" : satellite,
-            	"Night Time" : nighttime
+            	"Satellite" : satellite1,
+            	"Night Time" : night1
             	};
             	
             var overlays = {
@@ -216,7 +220,8 @@ var map = L.map('map').setView([35.2, -97.5], 5);
             	"Flash Flood Warnings" : flashfloodwarn,
             	"Wind Direction and Speed" : wind,
             	"Wind Vectors" : windvectors,
-            	"1 Hour Precipitation Accumulation" : precip1
+            	"1 Hour Precipitation Accumulation" : precip1,
+            	"Alternate Labels" : roads
             	};
             
             L.control.layers(baseLayers, overlays).addTo(map);
