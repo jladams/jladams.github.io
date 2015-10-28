@@ -72,6 +72,11 @@ form {
 	max-width: 30vw;
 }
 
+#house {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #mySched8224 {
   background: #FFFFFF;
   border: 1px solid #CCCCCC;
