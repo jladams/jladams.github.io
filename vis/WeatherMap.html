@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>James L. Adams</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../images/party.png" />
+    <link rel="stylesheet" href="../bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../style.css">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<style>
+	    html, body {
+	        height: 100%;
+	    }
+	    #map {
+	        height: 98%;
+	    }
+		.leaflet-control-layers-expanded{ 
+    		width:auto;
+    		padding-left:15px;
+    		padding-top:0px;
+    		padding-bottom:10px;
+		}
+	</style>
+  	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span> <span class="icon-bar">
+                    </span> <span class="icon-bar">
+                    </span> 
+                </button>
+                <a class="navbar-brand" href="../visualizations.html">Visualizations</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mapping<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="QuakeMap.html">Earthquakes in Oklahoma</a></li>
+                            <li><a href="WeatherMap.html">Weather Map</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#">Library Stats<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="HCLCStats.html">HCLC Usage</a></li>
+                            <li><a href="rounds.html">HCLC Rounds</a></li>
+                            <li><a href="EIC.html">EIC Stats</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+		<div id="map"></div>
+			<script>			
+		    var map = L.map('map').setView([35.2, -97.5], 5);
+		    
+		    //Map Base Tiles
+			var lightbase = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+							type: 'map',
+							ext: 'jpg',
+							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+							subdomains: '1234'
+							});		    
+		    var darkbase = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+	                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+		        			}).addTo(map);
+			var satellite = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.{ext}', {
+							type: 'sat',
+							ext: 'jpg',
+							attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+							subdomains: '1234'
+							});
+		     
+		     
+		    //Weather Tiles
+
+//			Lightning Density
+			var lightning = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/sat_meteo_emulated_imagery_lightningstrikedensity_goes_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '1',
+    			opacity: "0.7",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			});					   		  		
+
+//			GOES Imagery            
+			var visiblegoes = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/sat_meteo_imagery_goes_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '1',
+    			opacity: "0.7",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			});	
+			var watervaporgoes = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/sat_meteo_imagery_goes_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '5',
+    			opacity: "0.7",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			});
+			var irgoes = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/sat_meteo_imagery_goes_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '9',
+    			opacity: "0.7",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			});
+			
+//			NEXRAD Imagery			
+			var radar = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '1',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);
+
+//			Watches			
+			var tornadowatch = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_watches_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '0',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);				
+			var thunderwatch = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_watches_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '1',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);	
+			var flashfloodwatch = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_watches_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '2',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);	
+			
+//			Warnings
+			var tornadowarning = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_warnings_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '1',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);			
+			var windwarning = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_warnings_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '2',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);	
+			var thunderwarning = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_warnings_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '3',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);	
+			var flashfloodwarning = L.tileLayer.wms('http://nowcoast.noaa.gov/arcgis/services/nowcoast/wwa_meteoceanhydro_shortduration_hazards_warnings_time/MapServer/WMSServer', {
+    			format: 'image/png',
+    			transparent: true,
+    			layers: '4',
+    			opacity: "0.8",
+				attribution: "Weather data from NOAA/NOS nowCoast"
+			}).addTo(map);	
+												
+            //Layer Control            
+            var baseLayers = {
+            	"Light Base" : lightbase,
+            	"Dark Base" : darkbase,
+            	"Satellite" : satellite
+            	};
+            	
+            var overlays = {
+            	"NEXRAD Radar Imagery" : radar,
+            	"Visible GOES Imagery" : visiblegoes,
+            	"Water Vapor GOES Imagery" : watervaporgoes,
+            	"Longwave IR GOES Imagery" : irgoes,
+				"Tornado Watch" : tornadowatch,
+				"Tornado Warning" : tornadowarning,
+				"Severe Thunderstorm Watch" : thunderwatch,
+				"Severe Thunderstorm Warning" : thunderwarning,
+				"Flash Flood Watch" : flashfloodwatch,
+				"Flash Flood Warning" : flashfloodwarning,
+				"Extreme Wind Warning" : windwarning,
+				"15 Minute Lightning Strike Density" : lightning
+            	};
+            
+            L.control.layers(baseLayers, overlays).addTo(map);
+		    
+		    // Scale
+			L.control.scale({position: 'topright'}).addTo(map);
+
+		</script>
+    <script src="../bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
