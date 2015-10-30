@@ -5,7 +5,7 @@ html {
 
 body {
     padding-top: 50px;
-    background-image: url("images/background.png");
+    background-image: url("images/backgrounddots.png");
     background-attachment:fixed;
 /*    padding-bottom: 50px; */
 }
@@ -15,8 +15,16 @@ form {
   top: 10px;
 }
 
+/*
 .jumbotron {
 	background-color: #12B2A7;
+    background-size:cover;
+    color: #ffffff;
+}
+*/
+
+.jumbotron {
+	background-color: #A8860C;
     background-size:cover;
     color: #ffffff;
 }
