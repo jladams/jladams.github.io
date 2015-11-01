@@ -5,7 +5,7 @@ html {
 
 body {
     padding-top: 50px;
-    background-image: url("images/backgrounddots.png");
+    background-image: url("images/bg-denim.png");
     background-attachment:fixed;
 /*    padding-bottom: 50px; */
 }
@@ -24,8 +24,7 @@ form {
 */
 
 .jumbotron {
-	background-color: #A8860C;
-    background-size:cover;
+    background-image: url("images/bg-red.png");	
     color: #ffffff;
 }
 
@@ -46,6 +45,14 @@ form {
 	background: #0D4F8B;
 	color: #ffffff;
 }*/
+
+
+.panel {
+	width: 90%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 
 .content {
     min-height:20px;
