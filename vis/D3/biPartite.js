@@ -256,10 +256,10 @@
 			var selectedBar = d3.select("#"+k.id).select(".part"+m).select(".mainbars")
 				.selectAll(".mainbar").filter(function(d,i){ return (i==s);});
 			
-			selectedBar.select(".mainrect").style("stroke-opacity",1);			
-			selectedBar.select(".barlabel").style('font-weight','bold');
-			selectedBar.select(".barvalue").style('font-weight','bold');
-			selectedBar.select(".barpercent").style('font-weight','bold');
+//			selectedBar.select(".mainrect").style("stroke-opacity",1);			
+//			selectedBar.select(".barlabel").style('font-weight','bold');
+//			selectedBar.select(".barvalue").style('font-weight','bold');
+//			selectedBar.select(".barpercent").style('font-weight','bold');
 		});
 	}	
 	
