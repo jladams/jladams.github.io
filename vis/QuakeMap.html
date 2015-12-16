@@ -54,6 +54,7 @@
   	<script src="leaflet/data/quakes2012.js" type="text/javascript"></script>
   	<script src="leaflet/data/quakes2013.js" type="text/javascript"></script>
   	<script src="leaflet/data/quakes2014.js" type="text/javascript"></script>
+  	<script src="leaflet/data/quakes2015.js" type="text/javascript"></script>
     <script src="leaflet/data/faults.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="leaflet/Leaflet.markercluster-master/dist/MarkerCluster.css" />
 	<link rel="stylesheet" href="leaflet/Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
@@ -95,37 +96,59 @@
         </div>
     </nav>
 		<div id="map"></div>
+<!-- 	Credits -->
+		<div class="modal fade" id="credits" role="dialog">
+    		<div class="modal-dialog">
+          			<div class="modal-content">
+        			<div class="modal-header">
+          				<button type="button" class="close" data-dismiss="modal">&times;</button>
+          				<h4 class="modal-title">Credits</h4>
+        			</div>
+        			<div class="modal-body">
+						<h4>This map is the result of a collaboration between the <a href="http://www.ou.edu/ogs" target="_blank">Oklahoma Geological Survey</a> and the <a href="http://libraries.ou.edu" target="_blank">University of Oklahoma Libraries</a></h4>
+        				</br>
+        				<p><strong>Map-Making Library:</strong></p>
+        				<p><a href="http://www.leafletjs.com" target="_blank">Leaflet.js</a></p>
+        				</br>
+          				<p><strong>Map Base Tiles:</strong></p>
+          				<p>Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community</p>
+        				</br>
+        				<p><strong>Clustering Plugin:</strong></p>
+        				<p><a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">Leaflet.markercluster</a> &copy; 2012 Dave Leaver, smartrak</p>
+        				</br>
+        				<p><strong>Earthquake Data:</strong></p>
+        				<p><a href="http://earthquake.usgs.gov/" target="_blank">US Geological Survey</a><p>
+        				<p><a href="http://www.ou.edu/ogs" target="_blank">Oklahoma Geological Survey</a><p>        				
+        			</div>
+        			<div class="modal-footer">
+          				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        			</div>
+      			</div>
+    		</div>
+		</div>
+<!--    Create the map -->
 		<script>
-		    var map = L.map('map').setView([35.4, -98], 8);
+        function makeMap() {
+//			Create map and set initial view			
+		    var map = L.map('map').setView([35.4, -98], 7);
 
+//			Base tiles
             var Esri_WorldTopoMap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
                 maxZoom: 14,
-	            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+	            attribution: 'Tiles &copy; Esri &mdash; <a data-toggle="modal" data-target="#credits">Credits</a>'
             }).addTo(map);
             
-        	// Faults 
+//          Faults - calculating all these points slows down the map, so consider creating an image overlay instead
             var faults = L.geoJson(faults, {
                 weight: 2,
                 color: "red"
             });
-            						    
-		    //Quakes GeoJSON Layer
-		    
-		    var quakes7_data;
-		    var quakes30_data;
-		    
-		    $.getJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(data) {
-				load7days(data);
-		    	});
-		    $.getJSON("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson", function(data) {
-				load30days(data);
-		    	});
 
-//			Historical Quake Layers
-			var quakes2008 = L.geoJson(quake2008, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
+//          Define Historical Marker Styles and Popups
+            var markerOptions = {
+                 onEachFeature: function(feature, layer) {
+                    temp = new Date(feature.properties.time);
+    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag, {
     		    		autoPan: true
          			})
          		},
@@ -136,171 +159,84 @@
          		        color: "#000"
         		    }
      			)}
- 	        });
-			var quakes2009 = L.geoJson(quake2009, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2010 = L.geoJson(quake2010, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2011 = L.geoJson(quake2011, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2012 = L.geoJson(quake2012, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2013 = L.geoJson(quake2013, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
-			var quakes2014 = L.geoJson(quake2014, {
-     	    	onEachFeature: function (feature, layer) {
-     	    		temp = new Date(feature.properties.time);
-    		    	layer.bindPopup("Date/Time: " + feature.properties.origintime + "</br>Magnitude: " + feature.properties.prefmag + "</br>Depth: " + feature.properties.depth, {
-    		    		autoPan: true
-         			})
-         		},
-         		pointToLayer: function (feature, latlng) {
-         			return L.circleMarker(latlng, {
-         		    	radius: feature.properties.prefmag * 5,
-         		        fillColor: "#ff7800",
-         		        color: "#000"
-        		    }
-     			)}
- 	        });
+     		};
 
-//			Add Layers to Clusters
-     		var cluster2008 = L.markerClusterGroup({
+//          Define Live Marker Styles and Popups
+            var liveOptions = {
+     		    onEachFeature: function (feature, layer) {
+     		    	temp = new Date(feature.properties.time);
+         		    layer.bindPopup("Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag, {
+         			    autoPan: true
+         			})
+         		},
+         		pointToLayer: function (feature, latlng) {
+         		    return L.circleMarker(latlng, {
+         		        radius: feature.properties.mag * 5,
+         		        fillColor: "#ff7800",
+         		        color: "#000"
+        		    }
+     		    )}
+            };
+
+//          Define Cluster Styles
+            var clusterOptions = {
 				iconCreateFunction: function (cluster) {
 					var childCount = cluster.getChildCount();
 					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
 				}
-     		});
+     		};     		
+
+//			Historical Quake Data from Oklahoma
+			var quakes2008 = L.geoJson(quake2008, markerOptions);
+			var quakes2009 = L.geoJson(quake2009, markerOptions);
+			var quakes2010 = L.geoJson(quake2010, markerOptions);
+			var quakes2011 = L.geoJson(quake2011, markerOptions);
+			var quakes2012 = L.geoJson(quake2012, markerOptions);
+			var quakes2013 = L.geoJson(quake2013, markerOptions);
+			var quakes2014 = L.geoJson(quake2014, markerOptions);
+			var quakes2015 = L.geoJson(quake2015, markerOptions);
+
+//          Define these variables for later         
+            var quakes7
+            var quakes24
+            var quakes30
+
+//			Create Cluster Groups
+     		var clusterNone = L.markerClusterGroup(clusterOptions); // Blank layer 		
+     		var cluster2008 = L.markerClusterGroup(clusterOptions);
+     		var cluster2009 = L.markerClusterGroup(clusterOptions);
+     		var cluster2010 = L.markerClusterGroup(clusterOptions);
+     		var cluster2011 = L.markerClusterGroup(clusterOptions);
+     		var cluster2012 = L.markerClusterGroup(clusterOptions);
+     		var cluster2013 = L.markerClusterGroup(clusterOptions);
+     		var cluster2014 = L.markerClusterGroup(clusterOptions);
+     		var cluster2015 = L.markerClusterGroup(clusterOptions);     		
+     		var cluster24 = L.markerClusterGroup(clusterOptions);   
+     		var cluster7 = L.markerClusterGroup(clusterOptions).addTo(map); // This is the only one actually on the map at the beginning
+     		var cluster30 = L.markerClusterGroup(clusterOptions);
+
+//          Add Historic Data to Clusters
      		cluster2008.addLayer(quakes2008);
-     		var cluster2009 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2009.addLayer(quakes2009);
-     		var cluster2010 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2010.addLayer(quakes2010);
-     		var cluster2011 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2011.addLayer(quakes2011);
-     		var cluster2012 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2012.addLayer(quakes2012);
-     		var cluster2013 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2013.addLayer(quakes2013);
-     		var cluster2014 = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
      		cluster2014.addLayer(quakes2014);
-     		var quakesseven = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		}).addTo(map);
-     		var quakesthirty = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
-     		var wellscluster = L.markerClusterGroup({
-				iconCreateFunction: function (cluster) {
-					var childCount = cluster.getChildCount();
-					return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'quake-cluster', iconSize: new L.Point(40, 40) });
-				}
-     		});
-     		
+     		cluster2015.addLayer(quakes2015);     		            
 
+//			Retrieves USGS data, puts it in layers and clusters - URLs in commented lines should retrieve data from OGS
+            getLive("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", quakes7, cluster7); // OGS: "http://wichita.ogs.ou.edu/eq/catalog/past7days/past7days.json"
+            getLive("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson", quakes30, cluster30); // OGS: "http://wichita.ogs.ou.edu/eq/catalog/past30days/past30days.json"
+            getLive("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson", quakes24, cluster24); // OGS: "http://wichita.ogs.ou.edu/eq/catalog/past24hours/past24hours.json"
+
+//          Layers/Clusters that will appear in Layer Control
             var baseLayers = {
-            	};
-            	
+                "None" : clusterNone,
+				"Past 24 Hours" : cluster24,
+            	"Past 7 Days" : cluster7,
+            	"Past 30 Days" : cluster30
+            };          	
             var overlays = {
 				"2008" : cluster2008,
 				"2009" : cluster2009,
@@ -309,53 +245,34 @@
 				"2012" : cluster2012,
 				"2013" : cluster2013,
 				"2014" : cluster2014,
-            	"Past 7 Days" : quakesseven,
-            	"Past 30 Days" : quakesthirty,
+				"2015" : cluster2015,
 				"Faults" : faults
-				};
+			};
 
+//          Add Layer Control
             L.control.layers(baseLayers, overlays).addTo(map);
             
-			// Scale
+//          Add Scale
 			L.control.scale({position: 'topright'}).addTo(map);
-			     		
-			function load7days(data) {
-			    var quakes7 = L.geoJson(data, {
-     		    	onEachFeature: function (feature, layer) {
-     		    		temp = new Date(feature.properties.time);
-         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: true
-         				})
-         			},
-         			pointToLayer: function (feature, latlng) {
-         		    	return L.circleMarker(latlng, {
-         		        	radius: feature.properties.mag * 5,
-         		        	fillColor: "#ff7800",
-         		        	color: "#000"
-        		    	}
-     				)}
- 	        	});
- 	        	quakesseven.addLayer(quakes7);
-			};		
-			function load30days(data) {
-			    var quakes30 = L.geoJson(data, {
-     		    	onEachFeature: function (feature, layer) {
-     		    		temp = new Date(feature.properties.time);
-         		    	layer.bindPopup("UTC Date/Time: " + temp.toUTCString() + "</br>Magnitude: " + feature.properties.mag + "</br>Depth: " + feature.geometry.depth, {
-         			    	autoPan: true
-         				})
-         			},
-         			pointToLayer: function (feature, latlng) {
-         		    	return L.circleMarker(latlng, {
-         		        	radius: feature.properties.mag * 5,
-         		        	fillColor: "#ff7800",
-         		        	color: "#000"
-        		    	}
-     				)}
- 	        	});
- 	        	quakesthirty.addLayer(quakes30);
-			};
-		</script>
+
+//          Get most recent data using getJSON			
+            function getLive(url, layer, clusters) {
+                $.getJSON(url, function(data) {
+                    loadLive(layer, clusters, data);
+                });
+            };
+
+//          Load the live data into layers, then add those layers into clusters
+            function loadLive(layer, clusters, data) {
+                layer = L.geoJson(data, liveOptions);
+                clusters.addLayer(layer);
+            };
+
+		};
+		
+//      Run it        
+		makeMap();
+		</script>		
     <script src="../bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
 </body>
 </html>
