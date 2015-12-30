@@ -41,27 +41,107 @@
         </div>
     </div>
     </a>
-    <div class="container content" id="content">
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Emerging Technologies</h2>
-                <a href="images/vr.png" data-lightbox="vr" data-title="Interacting with Molecules in VR"><img class="img-thumbnail" src="images/vr.png"></a>
-                <p>Here at OU, we're exploring new methods of research and instruction through the use of Virtual Reality, 3D Printing, and all sorts of new technologies. Here's some of the work we've been doing.</p>
-                <p><a class="btn btn-default" href="404.html" role="button">Check it out &raquo;</a></p>
-            </div>
-            <div class="col-md-4" id="webdev">
-                <h2>Data Visualizations</h2>
-                <a href="images/cytoscape.png" data-lightbox="cytoscape" data-title="Visualizing a blog using Cytoscape.js"><img class="img-thumbnail" src="images/cytoscape.png"></a>
-                <p>We use data for everything, and visualizations help us understand it. Here's some visualizations I've worked on.</p>
-                <p><a class="btn btn-default" href="visualizations.html" role="button">Check it out &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Other Projects</h2>
-                <a href="images/galileo.png" data-lightbox="galileo.png" data-title="From OU History of Science Collections"><img class="img-thumbnail" id="galileo" src="images/galileo.png"></a>
-                <p><a class="btn btn-default" href="404.html" role="button">Check it out &raquo;</a></p>
-            </div>
-        </div>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h1 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+    		Mapping
+        </a>
+      </h1>
     </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+    	<div class="container" id="content">
+        	<div class="row">
+            	<div class="col-md-6 col-sm-6">
+                	<h2>Earthquakes in Oklahoma</h2>
+                	<a href="images/quakemap.png" data-lightbox="quakemap" data-title="Earthquakes in Oklahoma"><img class="img-thumbnail" src="images/quakemap.png"></a>
+                	<p>A map that displays historical earthquakes in Oklahoma and recent earthquakes worldwide.</p>
+                	<p><a class="btn btn-default" href="vis/QuakeMap.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+ <!--           	<div class="col-md-6 col-sm-6">
+                	<h2>Weather in the United States</h2>
+                	<a href="images/weathermap.png" data-lightbox="weathermap" data-title="Keeping track of current weather"><img class="img-thumbnail" src="images/weathermap.png"></a>
+                	<p>This is a map I put together using current data from NOAA's nowCOAST service. During tornado season I overlay live geocoded tweets from #okwx to track reactions to the weather.</p>
+                	<p><a class="btn btn-default" href="vis/WeatherMap.html" role="button">Check it out &raquo;</a></p>
+            	</div>  -->
+            	<div class="col-md-6 col-sm-6">
+                	<h2>NYC Stop and Frisk in 2014</h2>
+                	<a href="images/sf2014.png" data-lightbox="sf2014" data-title="Keeping track of current weather"><img class="img-thumbnail" src="images/sf2014.png"></a>
+                	<p>This is a series of visualizations I put together from NYC Stop and Frisk data provided by NYPD using Tableau Public.</p>
+                	<p><a class="btn btn-default" href="vis/nycsf2014.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+        	</div>
+    	</div>      
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h1 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Bizzell Library Stats
+        </a>
+      </h1>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+    	<div class="container" id="content">
+        	<div class="row">
+            	<div class="col-md-4 col-sm-6">
+                	<h2>Tracking HCLC Rounds</h2>
+                	<a href="images/rounds.png" data-lightbox="rounds" data-title="Keeping track of ourselves every day"><img class="img-thumbnail" src="images/rounds.png"></a>
+                	<p>How good are we about tracking stats in the HCLC? These visualizations help us keep track of ourselves.</p>
+                	<p><a class="btn btn-default" href="vis/rounds.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+            	<div class="col-md-4 col-sm-6">
+                	<h2>Tracking HCLC Usage</h2>
+                	<a href="images/occupancy.png" data-lightbox="occupancy" data-title="Making sure we know how people use our space"><img class="img-thumbnail" src="images/occupancy.png"></a>
+                	<p>How are people using the HCLC? These visualizations help us understand when and how we need to focus our efforts.</p>
+                	<p><a class="btn btn-default" href="vis/HCLCStats.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+            	<div class="col-md-4 col-sm-6">
+                	<h2>EIC Statistics</h2>
+                	<a href="images/eic.png" data-lightbox="eic" data-title="Providing service in the EIC"><img class="img-thumbnail" src="images/eic.png"></a>
+                	<p>How are people using the Electronic Information Center on the main floor?</p>
+                	<p><a class="btn btn-default" href="vis/EIC.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+        	</div>
+    	</div>
+      </div>
+    </div>
+  </div>  
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h1 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Other Visualizations
+        </a>
+      </h1>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+    	<div class="container" id="content">
+        	<div class="row">
+            	<div class="col-md-6 col-sm-6">
+                	<h2>Visualizing America's Refugees</h2>
+                	<a href="images/refugees.png" data-lightbox="refugees" data-title="Showing US refugee settlement using D3"><img class="img-thumbnail" src="images/refugees.png"></a>
+                	<p>This is an interactive visualization of where refugees settled in the US during FY2014 that I put together while learning D3.</p>
+                	<p><a class="btn btn-default" href="vis/refugees.html" role="button">Check it out &raquo;</a></p>
+            	</div>
+                <div class="col-md-6 col-sm-6">
+                	<h2>Inhabiting the Anthropocene</h2>
+                	<a href="images/cytoscape.png" data-lightbox="cytoscape" data-title="Visualizing a blog using Cytoscape.js"><img class="img-thumbnail" src="images/cytoscape.png"></a>
+                	<p>This is a visualization of a multidisciplinary blog that I helped create using the Cytoscape.js JavaScript library. This link will take you to an external site.</p>
+                	<p><a class="btn btn-default" href="http://ztclasses.com/HabitationAnthropocene/index.html" target="_blank" role="button">Check it out &raquo;</a></p>
+            	</div> 
+        	</div>
+    	</div>
+      </div>
+    </div>
+  </div>
+</div> 
     <script src="bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
   	<script src="lightbox2-master/dist/js/lightbox.min.js"></script>
 </body>
