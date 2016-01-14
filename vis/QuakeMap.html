@@ -124,7 +124,7 @@
             }).addTo(map);
             
 //          Faults - calculating all these points slows down the map, so consider creating an image overlay instead
-            var faults = L.geoJson(faults, {
+            var faultlines = L.geoJson(faults, {
                 weight: 2,
                 color: "red"
             });
@@ -231,7 +231,7 @@
 				"2013" : cluster2013,
 				"2014" : cluster2014,
 				"2015" : cluster2015,
-				"Faults" : faults
+				"Faults" : faultlines
 			};
 
 //          Add Layer Control
